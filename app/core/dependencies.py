@@ -12,7 +12,7 @@ from app.model.user import UserDB
 from app.schema.user import ListUsersResponse, DeleteUserResponse, CreateUserRequest
 from app.schema.user import UpdateUserRequest, UpdateUserResponse
 from app.core.config import MONGO_COLLECTION_USERS
-from jwt import InvalidTokenError
+from jwt.exceptions import InvalidTokenError
 from app.schema.user import TokenData, User
 from app.core.config import SECRET_KEY, ALGORITHM, MONGODB_URL
 from app.core.security import bearer_scheme, verify_password, get_password_hash

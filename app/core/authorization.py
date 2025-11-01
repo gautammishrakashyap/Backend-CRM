@@ -1,7 +1,7 @@
 from typing import List, Optional, Callable, Any
 from functools import wraps
 from fastapi import Depends, HTTPException, status
-from jwt import InvalidTokenError
+from jwt.exceptions import InvalidTokenError
 import jwt
 from app.core.config import (
     SECRET_KEY, ALGORITHM, MONGO_COLLECTION_ROLES, 
