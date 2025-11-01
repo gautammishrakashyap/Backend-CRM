@@ -11,8 +11,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy all project files
 COPY . .
 
-# Expose dev port
-EXPOSE 8011
+# Expose port (Render provides $PORT at runtime)
+EXPOSE 8000
 
-# Start FastAPI dev server
-CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8011", "--reload"]
+# Start FastAPI server. Use shell form so $PORT is expanded by the shell.
+# In Render set the environment variable PORT (Render sets it automatically).
+# Don't use --reload in production.
+CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
