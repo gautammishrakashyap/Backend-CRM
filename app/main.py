@@ -11,9 +11,13 @@ from app.core.database import create_start_app_handler, create_stop_app_handler
 
 def get_application() -> FastAPI:
     application = FastAPI(
-        title=PROJECT_NAME, 
-        debug=DEBUG, 
+        title=PROJECT_NAME,
+        debug=DEBUG,
         version=VERSION,
+        # Explicit OpenAPI and docs paths (keeps URLs predictable behind proxies)
+        openapi_url="/openapi.json",
+        docs_url="/docs",
+        redoc_url="/redoc",
         openapi_tags=[
             {
                 "name": "Authentication",
@@ -58,6 +62,14 @@ def get_application() -> FastAPI:
 
 
 app = get_application()
+
+# Redirect root to docs so the service root doesn't return a 404 in browsers or health checks
+from fastapi.responses import RedirectResponse
+
+
+@app.get("/", include_in_schema=False)
+def root_redirect():
+    return RedirectResponse(url="/docs")
 
 
 # # Optional: run directly with `uv run python app/api/main.py`
